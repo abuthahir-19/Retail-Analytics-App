@@ -1,0 +1,2 @@
+tmp/kafka-logs-*/**/*.log filter=lfs diff=lfs merge=lfs -text
+tmp/zookeeper/**/*.log filter=lfs diff=lfs merge=lfs -text

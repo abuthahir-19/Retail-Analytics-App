@@ -1,0 +1,1 @@
+%KAFKA_HOME%\bin\windows\kafka-topics.bat --delete --topic order.items.enriched --bootstrap-server localhost:9092
