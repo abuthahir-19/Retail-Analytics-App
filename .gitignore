@@ -2,7 +2,10 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
-/temp
+
+### kafka logs director
+tmp/kafka-logs-*/
+tmp/zookeeper/c
 
 ### IntelliJ IDEA ###
 .idea/modules.xml
