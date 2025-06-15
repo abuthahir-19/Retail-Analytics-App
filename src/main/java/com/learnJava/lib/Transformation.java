@@ -1,6 +1,5 @@
 package com.learnJava.lib;
 
-import com.learnJava.driver.ConsumeDataFromKafka;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.spark.sql.Dataset;
@@ -14,19 +13,12 @@ import java.util.Arrays;
 public class Transformation {
     private static final Logger LOG = LogManager.getLogger();
     private static SparkSession spark;
-    private static final Dataset<Row> orders = ConsumeDataFromKafka.ReadDataFromKafka(spark, Constants.order_topic, DataSchemaDefinition.ordersSchema);
-    private static final Dataset<Row> orderItems = ConsumeDataFromKafka.ReadDataFromKafka(spark, Constants.order_items_topic, DataSchemaDefinition.orderItemsSchema);
-    private static final Dataset<Row> products = ConsumeDataFromKafka.ReadDataFromKafka(spark, Constants.products_topic, DataSchemaDefinition.productsSchema);
-    private static final Dataset<Row> sellers = ConsumeDataFromKafka.ReadDataFromKafka(spark, Constants.sellers_topic, DataSchemaDefinition.sellerSchema);
-    private static final Dataset<Row> orderPayments = ConsumeDataFromKafka.ReadDataFromKafka(spark, Constants.order_payments_topic, DataSchemaDefinition.orderPaymentsSchema);
-    private static final Dataset<Row> customers = ConsumeDataFromKafka.ReadDataFromKafka(spark, Constants.customers_topic, DataSchemaDefinition.customerSchema);
-
     public Transformation (SparkSession sparkSession) {
         spark = sparkSession;
     }
     // Filter out the order which is of cancelled or unavailable
 
-    public Dataset<Row> FilterOrders () {
+    public Dataset<Row> FilterOrders (Dataset<Row> orders) {
         try {
             assert orders != null;
             return orders
@@ -37,7 +29,7 @@ public class Transformation {
         return null;
     }
 
-    public Dataset<Row> DoDataEnrichment () {
+    public Dataset<Row> DoDataEnrichment (Dataset <Row> orderItems, Dataset<Row> orders, Dataset<Row> customers, Dataset<Row> sellers) {
         LOG.info ("Data enrichment process on-going");
         assert orderItems != null;
         return orderItems.join (orders, "order_id")
@@ -47,7 +39,7 @@ public class Transformation {
     }
 
     // Compute the total order value per customer to identify the high value customers
-    public Dataset<Row> GetCustomerScore () {
+    public Dataset<Row> GetCustomerScore (Dataset<Row> orderItems, Dataset<Row> orders) {
         assert orderItems != null;
         return orderItems
                 .join (orders, "order_id")
@@ -60,7 +52,7 @@ public class Transformation {
     }
 
     // To evaluate the performance of the logistics service partner (Which tells the order and its respective delay)
-    public Dataset <Row> CalculateDeliveryDelay () {
+    public Dataset <Row> CalculateDeliveryDelay (Dataset<Row> orders) {
         assert orders != null;
         return orders
                 .filter (col ("order_delivered_customer_date").isNotNull().and(col ("order_estimated_delivery_date").isNotNull()))
@@ -69,7 +61,7 @@ public class Transformation {
     }
 
     // To predict the fraudulent transactions like high value orders for example (Top 10 high value orders in each payment_type)
-    public Dataset <Row> FlagHighValueOrders () {
+    public Dataset <Row> FlagHighValueOrders (Dataset<Row> orderPayments) {
         assert orderPayments != null;
 
         LOG.info ("Getting information of unique payment types");
@@ -86,7 +78,7 @@ public class Transformation {
     }
 
     // Get the Top selling product category
-    public Dataset<Row> PredictTopSellingProductCategory () {
+    public Dataset<Row> PredictTopSellingProductCategory (Dataset<Row> orderItems, Dataset<Row> products, Dataset<Row> orders) {
         assert orderItems != null;
 
         LOG.info ("Getting the top selling product category in an hourly window");
@@ -103,7 +95,7 @@ public class Transformation {
     }
 
     // Apply discounts for credit card payments
-    public Dataset <Row> ApplyDiscountsForCreditCard () {
+    public Dataset <Row> ApplyDiscountsForCreditCard (Dataset<Row> orderPayments, Dataset<Row> orderItems) {
         assert orderPayments != null;
         assert  orderItems != null;
 
@@ -114,7 +106,7 @@ public class Transformation {
     }
 
     // Data deduplication for order payment to avoid invalid revenue report
-    public Dataset<Row> DataDeduplication () {
+    public Dataset<Row> DataDeduplication (Dataset<Row> orderPayments) {
         assert orderPayments != null;
 
         LOG.info ("Analysing the order payments data...");
@@ -133,7 +125,7 @@ public class Transformation {
     }
 
     // Handle null data in the product dimensions
-    public Dataset <Row> HandleNullData () {
+    public Dataset <Row> HandleNullData (Dataset<Row> products) {
         assert products != null;
 
         LOG.info ("Checking for the null entries in the product_weight");
