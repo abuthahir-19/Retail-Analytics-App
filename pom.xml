@@ -143,6 +143,29 @@
             <version>5.10.3</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.clickhouse.spark</groupId>
+            <artifactId>clickhouse-spark-runtime-3.5_2.12</artifactId>
+            <version>0.8.1</version>
+        </dependency>
+        <!-- ClickHouse JDBC Driver -->
+        <dependency>
+            <groupId>com.clickhouse</groupId>
+            <artifactId>clickhouse-jdbc</artifactId>
+            <version>0.6.3</version>
+        </dependency>
+
+        <!-- Apache HttpClient -->
+        <dependency>
+            <groupId>org.apache.httpcomponents.core5</groupId>
+            <artifactId>httpcore5</artifactId>
+            <version>5.2.5</version> <!-- Use the latest version -->
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents.client5</groupId>
+            <artifactId>httpclient5</artifactId>
+            <version>5.3.1</version> <!-- Use the latest version -->
+        </dependency>
     </dependencies>
 
     <build>
@@ -184,7 +207,7 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>3.0.0</version>
                 <configuration>
-                    <mainClass>com.learnJava.SparkChallenge.EcommerceAnalytics</mainClass>
+                    <mainClass>com.learnJava.Main</mainClass>
                     <arguments>
                         <argument>--add-opens=java.base/java.nio=ALL-UNNAMED</argument>
                     </arguments>

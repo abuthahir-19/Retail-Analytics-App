@@ -13,4 +13,6 @@ public class Constants {
     public static final String orders_topic = "orders";
     public static final String products_topic = "products";
     public static final String sellers_topic = "sellers";
+    public static final String ch_password = "dy.8Z7qqFQ0fe";
+    public static final String ch_db = "default";
 }

@@ -47,8 +47,8 @@ public class Transformation {
                         col ("customer_id"),
                         window (col("order_purchase_timestamp"), "1 hour")
                 )
-                .agg (round(sum(col ("price").plus(col ("freight_value"))), 2).alias ("Total Order Value"))
-                .orderBy (col ("Total Order Value").desc());
+                .agg (round(sum(col ("price").plus(col ("freight_value"))), 2).alias ("Total_Order_Value"))
+                .orderBy (col ("Total_Order_Value").desc());
     }
 
     // To evaluate the performance of the logistics service partner (Which tells the order and its respective delay)
@@ -89,7 +89,7 @@ public class Transformation {
                         col ("product_category_name"),
                         window (col("order_purchase_timestamp"), "1 hour")
                 )
-                .agg(round(sum (col ("price")), 2).alias ("Total Selling value"))
+                .agg(round(sum (col ("price")), 2).alias ("Total_Selling_Value"))
                 .filter (col ("product_category_name").notEqual("NULL"))
                 .orderBy(col ("product_category_name"));
     }
