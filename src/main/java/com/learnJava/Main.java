@@ -6,7 +6,7 @@ import com.learnJava.driver.Pipeline;
 import com.learnJava.driver.SparkUtil;
 import com.learnJava.driver.StreamDataToKafka;
 import com.learnJava.model.Datasets;
-import org.apache.hadoop.conf.Configuration;
+import com.learnJava.util.HadoopConfigUtil;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.logging.log4j.LogManager;
@@ -14,21 +14,25 @@ import org.apache.logging.log4j.Logger;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
-
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-
 public class Main {
     private static final Logger LOG = LogManager.getLogger();
     public static void main(String[] args) throws Exception {
-        InputStream in = Main.class.getClassLoader().getResourceAsStream("clickhouse_config.properties");
+        String filePath = "hdfs://192.168.1.37:9000/user/abuthahir/retail_analytics_proj/static_resource/clickhouse_config.properties";
         Properties props = new Properties();
-        props.load (in);
+        Path configPath = new Path (filePath);
+
+        FileSystem fs = FileSystem.get (HadoopConfigUtil.getConfiguration());
+        try (InputStream in = fs.open(configPath)) {
+            props.load (in);
+            LOG.info ("Properties loaded successfully from the path : {}", filePath);
+        } catch (Exception e) {
+            LOG.error ("Error while loading the properties : {}", e.getMessage());
+        }
 
         LOG.info ("Initiating the spark session");
         SparkSession spark = SparkUtil.getSparkSession("Real-Time Retail Data Analytics", props);

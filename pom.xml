@@ -185,7 +185,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>com.learnJava.SparkChallenge.EcommerceAnalytics</mainClass>
+                            <mainClass>com.learnJava.Main</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
