@@ -1,6 +1,5 @@
 package com.learnJava.driver;
 
-import com.learnJava.lib.Constants;
 import org.apache.spark.sql.SparkSession;
 
 import java.util.HashMap;

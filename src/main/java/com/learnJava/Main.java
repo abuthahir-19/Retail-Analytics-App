@@ -25,7 +25,7 @@ import java.util.Properties;
 public class Main {
     private static final Logger LOG = LogManager.getLogger();
     public static void main(String[] args) throws Exception {
-        if (args.length != 0) {
+        if (args.length != 1) {
             LOG.error ("Usage : <hdfs_file_path>");
             System.exit(1);
         }
@@ -65,7 +65,6 @@ public class Main {
         LOG.info ("Invoking the data transformation pipeline..");
         Pipeline pipeline = new Pipeline(spark);
         pipeline.BeginTransformation();
-
 
         LOG.info ("Closing the spark session");
         spark.close();
