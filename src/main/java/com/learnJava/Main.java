@@ -49,7 +49,8 @@ public class Main {
         SparkSession spark = SparkUtil.getSparkSession("Real-Time Retail Data Analytics", props);
 
         LOG.info ("Preparing the data from local to kafka");
-        List<Datasets> datasets = new DatasetsList().getDatasetsList();
+        DatasetsList datasetsList = new DatasetsList(props);
+        List<Datasets> datasets = datasetsList.getDatasetsList();
 
         PrepareDataToKafka prepareDataToKafka = new PrepareDataToKafka(spark);
         prepareDataToKafka.setDataframesList(datasets);

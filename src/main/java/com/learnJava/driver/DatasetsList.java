@@ -2,20 +2,33 @@ package com.learnJava.driver;
 
 import com.learnJava.lib.Constants;
 import com.learnJava.model.Datasets;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Properties;
+
 import static com.learnJava.lib.Constants.*;
 
 public class DatasetsList {
-    Datasets customer = new Datasets (customers_topic, Constants.customers_file_path, "csv");
-    Datasets orderItems = new Datasets (order_items_topic, Constants.order_items_file_path, "csv");
-    Datasets orderPayments = new Datasets (order_payments_topic, Constants.order_payments_file_path, "csv");
-    Datasets orders = new Datasets (orders_topic, Constants.orders_file_path, "csv");
-    Datasets products = new Datasets (products_topic, Constants.products_file_path, "csv");
-    Datasets sellers = new Datasets (sellers_topic, Constants.sellers_file_path, "csv");
+    private static final Logger LOG = LogManager.getLogger();
+
+    public static Properties props;
+    public DatasetsList (Properties propsObj) {
+        props = propsObj;
+        LOG.info ("Properties assigned : {}", props);
+    }
 
     public List<Datasets> getDatasetsList () {
+        Datasets customer = new Datasets (customers_topic, props.getProperty(CUSTOMERS), "csv");
+        Datasets orderItems = new Datasets (order_items_topic, props.getProperty (ORDER_ITEMS), "csv");
+        Datasets orderPayments = new Datasets (order_payments_topic, props.getProperty(ORDER_PAYMENTS), "csv");
+        Datasets orders = new Datasets (orders_topic, props.getProperty(ORDERS), "csv");
+        Datasets products = new Datasets (products_topic, props.getProperty (PRODUCTS), "csv");
+        Datasets sellers = new Datasets (sellers_topic, props.getProperty(SELLERS), "csv");
+
+        LOG.info ("checking sample props Customers : {}", props.getProperty(CUSTOMERS));
         return Arrays.asList (customer, orderItems, orderPayments, orders, products, sellers);
     }
 }
