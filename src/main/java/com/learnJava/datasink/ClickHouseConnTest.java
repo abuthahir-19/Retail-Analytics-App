@@ -8,7 +8,7 @@ import java.util.Properties;
 
 public class ClickHouseConnTest {
     public static void main(String[] args) {
-        String jdbcUrl = "jdbc:clickhouse://gjj62o4lbw.us-east1.gcp.clickhouse.cloud:8443/default";
+        String jdbcUrl = "jdbc:clickhouse://d2ias78hi7.us-east1.gcp.clickhouse.cloud:8443/default";
         Properties props = new Properties();
         props.put("user", "default");
         props.put("password", Constants.ch_password); // Replace with your actual password

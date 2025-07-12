@@ -38,7 +38,7 @@ public class Pipeline {
         LOG.info ("Writing the filtered output to clickhouse");
 
         filteredOrders
-                .writeTo("clickhouse.default.filtered_orders")
+                .writeTo("clickhouse.retail_analytics.filtered_orders")
                 .append();
 
         LOG.info ("Checking the count of order in each order status");
@@ -58,7 +58,7 @@ public class Pipeline {
         LOG.info ("Order Items data after adding customer and seller localities information");
         LOG.info ("Writing the enriched order items data to clickhouse");
         enriched_order_items
-                .writeTo ("clickhouse.default.enriched_orders_items")
+                .writeTo ("clickhouse.retail_analytics.enriched_orders_items")
                 .append();
 
         // Rule 3: Identify the high value customer
@@ -66,7 +66,7 @@ public class Pipeline {
         LOG.info ("Top 10 Customers with high order value");
         LOG.info ("Writing the customer score data to clickhouse");
         CustomerScore
-                .writeTo ("clickhouse.default.customer_score_data")
+                .writeTo ("clickhouse.retail_analytics.customer_score_data")
                 .append();
 
         // Rule 4: Identify the Logistics performance by finding the delay in delivery
@@ -76,7 +76,7 @@ public class Pipeline {
         LOG.info ("Added a feature that will show the number of days delay in the delivery");
         LOG.info ("Writing the delivery stat to clickhouse");
         OrderDelays
-                .writeTo("clickhouse.default.delivery_stat")
+                .writeTo("clickhouse.retail_analytics.delivery_stat")
                 .append();
 
         // Rule 5: Predict High value transactions to find fraudulent transactions
@@ -86,7 +86,7 @@ public class Pipeline {
         LOG.info ("Getting the information of top 10 high value transaction in each payment method (Potentially Fraud)");
         LOG.info ("Writing the top 10 high value transactions in each payment type to clickhouse");
         highValueTransactions
-                .writeTo("clickhouse.default.high_value_order_stat")
+                .writeTo("clickhouse.retail_analytics.high_value_order_stat")
                 .append();
 
         // Rule 6: Identify top-selling product category
@@ -95,7 +95,7 @@ public class Pipeline {
         LOG.info ("Getting the top selling product category in an hourly window");
         LOG.info ("Writing the top selling product category information to clickhouse");
         topSellingProduct
-                .writeTo ("clickhouse.default.top_selling_product_category")
+                .writeTo ("clickhouse.retail_analytics.top_selling_product_category")
                 .append();
 
         // Rule 7: Apply the discount to the credit card purchase
@@ -104,7 +104,7 @@ public class Pipeline {
         LOG.info ("Applying the discount price for credit card purchase");
         LOG.info ("Writing the credit card discounts data to clickhouse");
         discountedPrice
-                .writeTo ("clickhouse.default.credit_card_dscns")
+                .writeTo ("clickhouse.retail_analytics.credit_card_dscns")
                 .append();
 
         // Rule 8: Filtering the duplicate data in order payments to avoid invalid revenue report
@@ -112,7 +112,7 @@ public class Pipeline {
         LOG.info ("Checking the entries after removing the duplicate");
         LOG.info ("Writing the deduped order_payments info to clickhouse");
         deduped
-                .writeTo("clickhouse.default.order_pymnts_dedup")
+                .writeTo("clickhouse.retail_analytics.order_pymnts_dedup")
                 .append();
 
         // Rule 9: Handling the null values in the product dimensions
@@ -121,7 +121,7 @@ public class Pipeline {
         LOG.info ("Filling null entries in the products dataset with random values");
         LOG.info ("Writing the products information to clickhouse after removing null entries in the product dimension");
         NullRemoved
-                .writeTo("clickhouse.default.products_cleaned")
+                .writeTo("clickhouse.retail_analytics.products_cleaned")
                 .append();
 
         LOG.info ("Getting null count in the product dimension(product_weight_g, product_length_cm) after removing null");

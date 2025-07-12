@@ -1,39 +1,29 @@
 package com.learnJava.lib;
 
+import com.learnJava.util.HadoopConfigUtil;
+import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.Path;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.*;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.util.Properties;
 
 public class DataInsights {
-    public static void main(String[] args) throws FileNotFoundException {
-        Path path = Paths.get ("E:\\JavaSpark\\Retail_Analytics_Platform\\src\\main\\resources\\sample.txt");
+    private static final Logger LOG = LogManager.getLogger();
+    public static void main(String[] args) throws IOException {
+        String hdfsPath = "hdfs://192.168.1.37:9000/user/abuthahir/retail_project/static_resource/clickhouse_config.properties";
 
-        File file = new File (path.toUri());
-        if (file.exists()) {
-            System.out.println (file.getName() + " File exists");
-            try (BufferedInputStream bf = new BufferedInputStream(new FileInputStream(file))) {
-                int c;
-                StringBuilder line = new StringBuilder();
-                while ((c = bf.read()) != -1) {
-                    line.append((char) c);
-                }
-                System.out.println (line);
-            } catch (Exception e) {
-                System.out.println ("Error occurred : " + e.getMessage());
-            }
-        }
-        System.out.println ("\n");
+        FileSystem fs = FileSystem.get (HadoopConfigUtil.getConfiguration());
+        Properties props = new Properties();
 
-        if (file.exists()) {
-            try (BufferedReader bf = new BufferedReader(new FileReader(file))) {
-                String line = "";
-                while ((line = bf.readLine()) != null) {
-                    System.out.println (line);
-                }
-
-            } catch (IOException ioe) {
-                System.out.println ("Exception occurred : " + ioe.getMessage());
-            }
+        try (InputStream in = fs.open (new Path(hdfsPath))) {
+            LOG.info ("Trying to load properties");
+            props.load (in);
+            LOG.info ("Properties loaded : {}", props);
+        } catch (Exception e) {
+            LOG.error ("Error while loading the properties !!");
+            LOG.info ("Error details : {}", e.getMessage());
         }
     }
 }
