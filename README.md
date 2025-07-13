@@ -4,7 +4,7 @@
 The Real-Time Retail Analytics Platform is an end-to-end data engineering project designed to process and analyze streaming retail data in real time. The pipeline ingests data from multiple sources (e.g., orders, payments, products), applies a variety of transformations to derive actionable insights, and stores the results in ClickHouse for high-performance analytics. The project supports use cases such as sales monitoring, fraud detection, customer segmentation, and logistics optimization, enabling data-driven decision-making for retail businesses.
 This repository contains the implementation of a scalable Spark ETL pipeline written in Java, integrated with Apache Kafka for data ingestion and ClickHouse for storage. The project includes unit tests for robust validation and is deployed on a cloud environment (e.g., AWS).
 
-![Architecture Diagram](resources/images/architecture.png)
+![Architecture Diagram](./src/main/resources/images/architecture.png)
 ## Project Objectives
 - **Ingest real-time data** from retail datasets (orders, order items, payments, products, customers, sellers) using Kafka.
 - **Apply diverse transformations** including data cleaning, enrichment, aggregations, anomaly detection, and feature engineering to generate insights.
