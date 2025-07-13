@@ -1,17 +1,11 @@
 package com.learnJava.util;
 
-import com.learnJava.driver.ConsumeDataFromKafka;
 import com.learnJava.driver.DatasetsList;
 import com.learnJava.driver.SparkUtil;
-import com.learnJava.lib.Constants;
-import com.learnJava.lib.Transformation;
-import com.learnJava.model.Datasets;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.spark.sql.Dataset;
-import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
 import org.apache.spark.sql.catalyst.analysis.NoSuchTableException;
 
@@ -19,11 +13,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
 import java.util.Properties;
-
-import static com.learnJava.lib.Constants.*;
-import static com.learnJava.lib.DataSchemaDefinition.*;
 
 public class DataSinkCheck {
     private static final Logger LOG = LogManager.getLogger();
