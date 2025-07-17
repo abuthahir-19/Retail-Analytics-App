@@ -20,7 +20,7 @@ public class HadoopConfigUtil {
             conf.addResource(configFile);
             LOG.info ("config file loaded to classpath");
             LOG.info ("Loaded fs.defaultFS: {}", conf.get ("fs.defaultFS"));
-            conf.set ("fs.defaultFS", "hdfs://192.168.1.37:9000");
+            conf.set ("fs.defaultFS", "hdfs://192.168.0.114:9000");
             LOG.info ("Forced fs.defaultFS: {}", "hdfs://192.168.1.37:9000");
         }
         return conf;
